@@ -1,6 +1,6 @@
 const ENV = {
   // 正常命令
-  development: '',
+  development: 'http://localhost:3000',
   production: '',
 
   // 新配置命令

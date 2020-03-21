@@ -2,7 +2,8 @@
 const path = require('path')
 
 module.exports = {
-  publicPath: './', // 处理打包后路径问题
+  // 处理打包后路径问题
+  publicPath: './',
 
   chainWebpack: config => {
     const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
@@ -21,3 +22,4 @@ function addStyleResource(rule) {
       ]
     })
 }
+
