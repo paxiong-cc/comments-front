@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
-import '@/utils/element-ui'
+// import '@/utils/element-ui'
 import { MessageBox, Message } from 'element-ui'
 import Throttle from '@/utils/throttle'
 
