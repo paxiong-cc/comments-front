@@ -11,6 +11,9 @@
           <li><router-link to="/advise">建议</router-link></li>
           <li><router-link to="/announcement">公告</router-link></li>
           <li><router-link to="/dynamic">动态</router-link></li>
+          <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block" style="color: #E9E8EA">|</li>
+          <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><router-link to="/dynamic">我发表的帖</router-link></li>
+          <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><router-link to="/dynamic">我收藏的贴</router-link></li>
         </ul>
 
         <div class="nav-right">
@@ -100,14 +103,14 @@ export default {
 
     li {
       display: inline-block;
-      width: 68px;
+      box-sizing: border-box;
+      padding: 0 15px;
       height: 50px;
+      line-height: 50px;
 
       a {
         display: block;
-        height: 50px;
         text-align: center;
-        line-height: 50px;
 
         &:hover {
           color: $router-h-active-color;

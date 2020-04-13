@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 // import Button from '@/components/Button'
 import { setToken, removeToken } from '@/config/cookie'
 
@@ -123,6 +123,9 @@ export default {
   },
 
   methods: {
+    ...mapActions('uuid', [
+      'setUuid'
+    ]),
     // 获取验证码
     getCode() {
       this.$http
@@ -168,6 +171,7 @@ export default {
         .then(res => {
           if (res.data.code === 200) {
             setToken(res.data.token)
+            this.setUuid(res.data.token)
             this.$router.push('/home')
           }
         })
