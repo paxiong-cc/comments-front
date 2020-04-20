@@ -38,126 +38,12 @@
                     </span>
                   </div>
                 </li>
-
-                <li class="comments-info">
-                  <!-- 评论标题栏 -->
-                  <h2 class="title">
-                    <div>
-                      <span class="layui-badge-rim">公告</span>
-                      <span class="sub-title">基于layui的极简社区页面模板</span>
-                    </div>
-                    <div>
-                      <span class="layui-badge layui-bg-cyan" style="margin-right: 5px">置顶</span>
-                      <span class="layui-badge">精帖</span>
-                    </div>
-                  </h2>
-
-                  <!-- 评论信息栏 -->
-                  <div class="info">
-                    <div>
-                      <a class="info-person">
-                        <span>paxiong&nbsp;</span>
-                        <i class="layui-badge">VIP3</i>
-                      </a>
-                      <span class="ml-20">刚刚</span>
-                      <span class="praise ml-20">
-                        <i class="iconfont icon-good">123</i>
-                      </span>
-                      <span class="layui-badge layui-bg-green ml-20">已结</span>
-                    </div>
-                    <span class="pinlun">
-                      <i class="iconfont icon-pinglun"></i>
-                      66
-                    </span>
-                  </div>
-                </li>
               </ul>
             </div>
           </div>
 
-          <!-- 赛选 -->
-          <div class="layui-card">
-            <div class="layui-card-header">
-              <div class="comment-pannel">
-                <div class="comment-pannel-title">
-                  <a class="bounced">签到</a>
-                  <span class="mid"></span>
-                  <a class="bounced">说明</a>
-                  <span class="mid"></span>
-                  <a class="bounced">活跃榜</a>
-                </div>
-              </div>
-            </div>
-            <div class="layui-card-body">
-              <ul>
-                <li class="comments-info">
-                  <!-- 评论标题栏 -->
-                  <h2 class="title">
-                    <div>
-                      <span class="layui-badge-rim">公告</span>
-                      <span class="sub-title">基于layui的极简社区页面模板</span>
-                    </div>
-                    <span class="layui-badge">精帖</span>
-                  </h2>
-
-                  <!-- 评论信息栏 -->
-                  <div class="info">
-                    <div>
-                      <a class="info-person">
-                        <span>paxiong&nbsp;</span>
-                        <i class="layui-badge">VIP3</i>
-                      </a>
-                      <span class="ml-20">刚刚</span>
-                      <span class="praise ml-20">
-                        <i class="iconfont icon-good">123</i>
-                      </span>
-                      <span class="layui-badge layui-bg-green ml-20">已结</span>
-                    </div>
-                    <span class="pinlun">
-                      <i class="iconfont icon-pinglun"></i>
-                      66
-                    </span>
-                  </div>
-                </li>
-
-                <li class="comments-info">
-                  <!-- 评论标题栏 -->
-                  <h2 class="title">
-                    <div>
-                      <span class="layui-badge-rim">公告</span>
-                      <span class="sub-title">基于layui的极简社区页面模板</span>
-                    </div>
-                    <div>
-                      <span class="layui-badge layui-bg-cyan" style="margin-right: 5px">置顶</span>
-                      <span class="layui-badge">精帖</span>
-                    </div>
-                  </h2>
-
-                  <!-- 评论信息栏 -->
-                  <div class="info">
-                    <div>
-                      <a class="info-person">
-                        <span>paxiong&nbsp;</span>
-                        <i class="layui-badge">VIP3</i>
-                      </a>
-                      <span class="ml-20">刚刚</span>
-                      <span class="praise ml-20">
-                        <i class="iconfont icon-good">123</i>
-                      </span>
-                      <span class="layui-badge layui-bg-green ml-20">已结</span>
-                    </div>
-                    <span class="pinlun">
-                      <i class="iconfont icon-pinglun"></i>
-                      66
-                    </span>
-                  </div>
-                </li>
-              </ul>
-              <div class="more">
-                <span class="layui-btn layui-btn-primary">更多求解</span>
-              </div>
-            </div>
-          </div>
+          <!-- 筛选评论内容 -->
+          <Comment :lists="commentList" @query="getCommentList" />
         </div>
 
         <!-- 右侧 -->
@@ -197,36 +83,7 @@
           </div>
 
           <!-- 本周热议 -->
-          <div class="layui-card">
-            <div class="layui-card-header">本周热议</div>
-            <div class="layui-card-body">
-              <ul class="week-hot">
-                <li>
-                  <a>asddsasd</a>
-                  <span class="pinglu comment-icon">
-                    <i class="iconfont icon-pinglun"></i>
-                    17
-                  </span>
-                </li>
-
-                <li>
-                  <a>asddsasd</a>
-                  <span class="pinglu comment-icon">
-                    <i class="iconfont icon-pinglun"></i>
-                    17
-                  </span>
-                </li>
-
-                <li>
-                  <a>asddsasd</a>
-                  <span class="pinglu comment-icon">
-                    <i class="iconfont icon-pinglun"></i>
-                    17
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </div>
+          <WeekHot :list="hotList" />
 
           <div class="layui-card">
             <div class="layui-card-header">广告区域</div>
@@ -250,8 +107,49 @@
 </template>
 
 <script>
-export default {
+import Comment from '../components/Comment'
+import WeekHot from '../components/WeekHot'
 
+export default {
+  components: {
+    Comment,
+    WeekHot
+  },
+
+  data() {
+    return {
+      commentList: [], // 评论列表
+      hotList: [] // 热议列表
+    }
+  },
+
+  created() {
+    // 加载评论列表
+    this.getCommentList({})
+    // 热议
+    this.getWeekHot()
+  },
+
+  methods: {
+    // 获取评论数据列表
+    getCommentList(conditions) {
+      this.$http
+        .get('/public/list', {
+          params: conditions
+        })
+        .then(res => {
+          this.commentList = res.data.data
+        })
+    },
+    // 获取本周热议
+    getWeekHot() {
+      this.$http
+        .get('/public/topWeek')
+        .then(res => {
+          this.hotList = res.data.data
+        })
+    }
+  }
 }
 </script>
 
@@ -297,35 +195,6 @@ export default {
         color: $praise
       }
     }
-  }
-
-  /* 赛选 */
-  .comment-pannel {
-    @include flex($row: space-between);
-
-    .comment-pannel-title {
-      @include flex($align: center);
-
-      a {
-        display: inline-block;
-        padding: 0 10px;
-        text-align: center;
-        cursor: pointer;
-      }
-
-      .bounced {
-
-        &:hover {
-          color: $router-h-active-color
-        }
-      }
-    }
-  }
-
-  .more {
-    @include flex($row: center, $align: center);
-    margin-top: 20px;
-    height: 80px;
   }
 
   /* 温馨通道 */
@@ -392,31 +261,6 @@ export default {
         margin: 0 5px;
         font-weight: 600;
         color: $praise;
-      }
-    }
-  }
-
-  /* 本周热议 */
-  .week-hot {
-
-    li {
-      @include flex($align: center);
-      a {
-        &:hover {
-          color: $router-h-active-color
-        }
-      }
-
-      .comment-icon {
-        @include flex($align: center);
-        margin-left: 10px;
-        font-size: 12px;
-        color: $comment-info-color;
-
-        .icon-pinglun {
-          margin-right: 3px;
-          font-size: 16px;
-        }
       }
     }
   }

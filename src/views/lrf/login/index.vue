@@ -63,7 +63,6 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 // import Button from '@/components/Button'
-import { setToken, removeToken } from '@/config/cookie'
 
 export default {
   name: 'Login',
@@ -118,14 +117,15 @@ export default {
   },
 
   created() {
-    removeToken()
+    localStorage.removeItem('token')
     this.getCode()
   },
 
   methods: {
-    ...mapActions('uuid', [
-      'setUuid'
-    ]),
+    ...mapActions({
+      'uuid': ['setUuid'],
+      'user': ['setIdentity']
+    }),
     // 获取验证码
     getCode() {
       this.$http
@@ -170,9 +170,11 @@ export default {
         })
         .then(res => {
           if (res.data.code === 200) {
-            setToken(res.data.token)
-            this.setUuid(res.data.token)
+            localStorage.setItem('token', res.data.token)
+            // this.setUuid(res.data.token)
             this.$router.push('/home')
+          } else if (res.data.code === 404) {
+            this.errorMessags.code = res.data.msg
           }
         })
         .catch(err => {

@@ -4,6 +4,7 @@ import Layout from '@/layout'
 import Lrf from '@/views/lrf'
 import Home from '@/views/content/home'
 import Content from '@/views/content'
+import User from '@/views/user'
 
 Vue.use(VueRouter)
 
@@ -35,6 +36,7 @@ const routes = [
           }
         ]
       },
+
       // 首页模块
       {
         path: '',
@@ -44,6 +46,25 @@ const routes = [
             path: '/home',
             name: '首页',
             component: Home
+          }
+        ]
+      },
+
+      // 用户信息
+      {
+        path: '/user',
+        component: User,
+        redirect: '/user/info',
+        children: [
+          {
+            path: 'info',
+            name: '用户中心',
+            component: () => import('@/views/user/info')
+          },
+          {
+            path: 'set',
+            name: '基本设置',
+            component: () => import('@/views/user/set')
           }
         ]
       }

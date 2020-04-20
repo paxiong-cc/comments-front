@@ -6,6 +6,7 @@ import axios from 'axios'
 // import '@/utils/element-ui'
 import { MessageBox, Message } from 'element-ui'
 import Throttle from '@/utils/throttle'
+import '../mock'
 
 import '@/axios'
 
