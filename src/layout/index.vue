@@ -24,7 +24,7 @@
 
         <!-- 用户信息 -->
         <div>
-          <ul v-if="false" class="info">
+          <ul v-if="!isLogin" class="info">
             <li><span class="iconfont icon-geren8" style="font-size: 34px"></span></li>
             <li>
               <router-link to="/login">登录</router-link>
@@ -39,8 +39,8 @@
           <ul v-else class="layui-nav user">
             <li class="layui-nav-item">
               <a href="javascript:;" class="user-info">
-                <img src="~@/assets/imgs/paxiong.jpg" class="layui-nav-img">
-                趴熊
+                <img :src="getPicUrl" class="layui-nav-img">
+                {{ userInfo && userInfo.username }}
               </a>
               <dl class="layui-nav-child">
                 <dd><router-link to="/user/info">用户中心</router-link></dd>
@@ -49,7 +49,7 @@
                 <dd><router-link to="/user/info">我的消息</router-link></dd>
                 <dd><router-link to="/user/info">我的主页</router-link></dd>
                 <dd><hr></dd>
-                <dd><router-link to="/user/info">退出</router-link></dd>
+                <dd><a @click="exit">退出</a></dd>
               </dl>
             </li>
           </ul>
@@ -69,9 +69,72 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+import { getUrl } from '@/config/path'
 
 export default {
-  name: 'Layout'
+  name: 'Layout',
+
+  provide() {
+    return {
+      layout: this
+    }
+  },
+
+  data() {
+    return {
+      isLogin: false,
+      userInfo: {}
+    }
+  },
+
+  computed: {
+    ...mapGetters([
+      'getUserInfo'
+    ]),
+
+    // 获取用户头像
+    getPicUrl() {
+      if (this.getUserInfo && this.getUserInfo.email) {
+        return `${getUrl()}${this.userInfo.pic}`
+      }
+      return '~@/assets/imgs/paxiong.jpg'
+    }
+  },
+
+  watch: {
+    // 判断是否从登录页登录
+    '$route': function(to, from) {
+      if (from.path === '/login') {
+        if (this.getUserInfo && this.getUserInfo.email) {
+          this.isLogin = true
+          this.userInfo = this.getUserInfo
+        }
+      }
+    }
+  },
+
+  created() {
+    // 刷新后是否已登录
+    if (this.getUserInfo && this.getUserInfo.email) {
+      this.isLogin = true
+      this.userInfo = this.getUserInfo
+    }
+  },
+
+  methods: {
+    ...mapActions('user', ['setUserInfo', 'setToken']),
+
+    // 退出
+    exit() {
+      this.isLogin = false
+      this.userInfo = {}
+      localStorage.removeItem('userInfo')
+      // 清空vuex里的用户信息
+      this.setUserInfo({})
+      this.setToken('')
+    }
+  }
 }
 </script>
 

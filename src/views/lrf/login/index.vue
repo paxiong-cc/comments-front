@@ -71,6 +71,8 @@ export default {
     // Button
   },
 
+  inject: ['layout'],
+
   data() {
     return {
       form: { // 表单信息
@@ -117,15 +119,14 @@ export default {
   },
 
   created() {
-    localStorage.removeItem('token')
+    // inject layout中的退出
+    this.layout.exit()
     this.getCode()
   },
 
   methods: {
-    ...mapActions({
-      'uuid': ['setUuid'],
-      'user': ['setIdentity']
-    }),
+    ...mapActions('uuid', ['setUuid']),
+    ...mapActions('user', ['setUserInfo', 'setToken']),
     // 获取验证码
     getCode() {
       this.$http
@@ -166,12 +167,14 @@ export default {
       this.$http
         .post('/login/login', {
           ...this.form,
-          'sid': this.getUuid
+          'sid': this.getUuid,
+          isPublic: true
         })
         .then(res => {
           if (res.data.code === 200) {
-            localStorage.setItem('token', res.data.token)
-            // this.setUuid(res.data.token)
+            this.setToken(res.data.token)
+            this.setUserInfo(res.data.data)
+            localStorage.setItem('userInfo', JSON.stringify(res.data))
             this.$router.push('/home')
           } else if (res.data.code === 404) {
             this.errorMessags.code = res.data.msg

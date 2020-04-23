@@ -2,7 +2,7 @@ import axios from 'axios'
 import router from '@/router/index'
 import { getUrl } from '@/config/path'
 import { Message } from 'element-ui'
-import { getToken, removeToken } from '@/config/cookie'
+// import { getToken, removeToken } from '@/config/cookie'
 
 /* 基本配置 */
 axios.defaults.timeout = 6000 // 请求默认时间
@@ -26,7 +26,7 @@ var netWorkError = false //  网络状态是否异常
 const STATUS_CODE = {
   401: {
     process: () => {
-      removeToken()
+      // removeToken()
       router.replace('/')
     }
   }
@@ -36,7 +36,9 @@ const STATUS_CODE = {
 axios.interceptors.request.use(
   config => {
     // 设置token
-    config.headers.Authorization = getToken()
+    config.params && config.params.isPublic
+      ? ''
+      : config.headers.Authorization = `Bearer ${localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo')).token || ''}`
     return config
   },
   err => {

@@ -1,5 +1,6 @@
 const getters = {
-  getIdentity: state => state.user.IDENTITY, // 获取用户信息
+  getToken: state => state.user.token, // 获取用户token
+  getUserInfo: state => state.user.userInfo, // 获取用户信息
   getUuid: state => state.uuid.uuid // 获取uuid信息
 }
 

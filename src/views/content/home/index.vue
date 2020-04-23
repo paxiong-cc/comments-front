@@ -62,26 +62,7 @@
           </div>
 
           <!-- 签到 -->
-          <div class="layui-card">
-            <div class="layui-card-header">
-              <div class="sign-pannel">
-                <div class="pannel-title">
-                  <a>签到</a>
-                  <span class="mid"></span>
-                  <a class="bounced">说明</a>
-                  <span class="mid"></span>
-                  <a class="bounced">活跃榜</a>
-                </div>
-                <span class="sign-state">
-                  已经连续签到<span class="sign-day">16</span>天
-                </span>
-              </div>
-            </div>
-            <div class="layui-card-body center" style="padding: 20px 0">
-              <span class="layui-btn layui-btn-danger">今日签到</span>
-            </div>
-          </div>
-
+          <Sign />
           <!-- 本周热议 -->
           <WeekHot :list="hotList" />
 
@@ -109,11 +90,13 @@
 <script>
 import Comment from '../components/Comment'
 import WeekHot from '../components/WeekHot'
+import Sign from '@/components/Sign'
 
 export default {
   components: {
     Comment,
-    WeekHot
+    WeekHot,
+    Sign
   },
 
   data() {
@@ -135,7 +118,10 @@ export default {
     getCommentList(conditions) {
       this.$http
         .get('/public/list', {
-          params: conditions
+          params: {
+            isPublic: true,
+            ...conditions
+          }
         })
         .then(res => {
           this.commentList = res.data.data
@@ -144,7 +130,11 @@ export default {
     // 获取本周热议
     getWeekHot() {
       this.$http
-        .get('/public/topWeek')
+        .get('/public/topWeek', {
+          params: {
+            isPublic: true
+          }
+        })
         .then(res => {
           this.hotList = res.data.data
         })
@@ -231,37 +221,4 @@ export default {
     }
   }
 
-  /* 签到 */
-  .sign-pannel {
-    @include flex($row: space-between);
-
-    .pannel-title {
-      @include flex($align: center);
-
-      a {
-        display: inline-block;
-        padding: 0 10px;
-        text-align: center;
-        cursor: pointer;
-      }
-
-      .bounced {
-        color: #01AAED;
-
-        &:hover {
-          color: $router-h-active-color
-        }
-      }
-    }
-
-    .sign-state {
-      color: $comment-info-color;
-
-      .sign-day {
-        margin: 0 5px;
-        font-weight: 600;
-        color: $praise;
-      }
-    }
-  }
 </style>

@@ -1,18 +1,29 @@
 const state = {
-  IDENTITY: JSON.parse(localStorage.getItem('Identity')) // 用户信息
+  token: JSON.parse(localStorage.getItem('userInfo')) && JSON.parse(localStorage.getItem('userInfo')).token || '', // 用户token
+  userInfo: JSON.parse(localStorage.getItem('userInfo')) && JSON.parse(localStorage.getItem('userInfo')).data || {} // 用户信息
 }
 
 const mutations = {
+  // 保存用户token
+  setToken(state, val) {
+    state.token = val
+  },
+
   // 保存用户信息
-  setIdentity(state, val) {
-    state.IDENTITY = JSON.parse(val)
+  setUserInfo(state, val) {
+    state.userInfo = val
   }
 }
 
 const actions = {
+  // 保存用户token
+  setToken({ commit }, val) {
+    commit('setToken', val)
+  },
+
   // 保存用户信息
-  setIdentity({ commit }, val) {
-    commit('setIdentity', val)
+  setUserInfo({ commit }, val) {
+    commit('setUserInfo', val)
   }
 }
 

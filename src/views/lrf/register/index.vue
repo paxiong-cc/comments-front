@@ -223,7 +223,8 @@ export default {
       this.$http
         .post('/login/register', {
           ...this.form,
-          'sid': this.getUuid
+          'sid': this.getUuid,
+          isPublic: true
         })
         .then(res => {
           if (res.data.code === 404) {

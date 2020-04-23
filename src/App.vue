@@ -22,7 +22,7 @@
 
   /* 横向垂直居中 */
   .center {
-    @include flex($row: center);
+    @include flex($row: center, $align: center);
   }
 
   /* 隔离竖线 */
