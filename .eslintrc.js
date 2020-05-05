@@ -42,7 +42,7 @@ module.exports = {
       'before': false,
       'after': true
     }],
-    'comma-style': [2, 'last'],
+    // 'comma-style': [2, 'last'],
     'constructor-super': 2,
     'curly': [2, 'multi-line'],
     'dot-location': [2, 'property'],
@@ -152,9 +152,9 @@ module.exports = {
     'no-useless-escape': 0,
     'no-whitespace-before-property': 2,
     'no-with': 2,
-    'one-var': [2, {
-      'initialized': 'never'
-    }],
+    // 'one-var': [2, {
+    //   'initialized': 'never'
+    // }],
     'operator-linebreak': [2, 'after', {
       'overrides': {
         '?': 'before',

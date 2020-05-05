@@ -67,6 +67,16 @@ const routes = [
             component: () => import('@/views/user/set')
           }
         ]
+      },
+
+      {
+        path: '/404',
+        component: () => import('@/views/404')
+      },
+
+      {
+        path: '*',
+        redirect: '/404'
       }
     ]
   }

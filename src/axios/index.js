@@ -35,6 +35,7 @@ const STATUS_CODE = {
 /* 拦截器 在发送请求之前拦截 */
 axios.interceptors.request.use(
   config => {
+    console.log(config)
     // 设置token
     config.params && config.params.isPublic
       ? ''

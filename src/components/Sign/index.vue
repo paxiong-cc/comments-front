@@ -29,11 +29,14 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import moment from 'moment'
 
 export default {
   data() {
     return {
-      kiss: 0
+      kiss: 0,
+      anotherDay: false,
+      anotherDayInterval: null
     }
   },
 
@@ -43,9 +46,35 @@ export default {
     ])
   },
 
+  watch: {
+    // 已经在当前页面过了一天了
+    anotherDay(newVal, oldVal) {
+      if (newVal) {
+        const userInfo = this.getUserInfo
+        userInfo.isSign = false
+        // 修改vuex里的状态
+        this.setUserInfo(userInfo)
+        // 修改localStorage里的状态
+        const localUserInfo = JSON.parse(localStorage.getItem('userInfo'))
+        localUserInfo.data = userInfo
+        localStorage.setItem('userInfo', JSON.stringify(localUserInfo))
+        clearInterval(this.anotherDayInterval)
+      }
+    }
+  },
+
   created() {
     this.getKissCount()
-    // TODO: 是否在0点时仍在界面
+    // 是否在0点时仍在界面
+    this.anotherDayInterval = setInterval(() => {
+      if (moment().subtract(1, 'days').format('YYYY-MM-DD') === moment(this.getUserInfo.getDate).format('YYYY-MM-DD')) {
+        this.anotherDay = true
+      }
+    }, 1000)
+  },
+
+  destroyed() {
+    clearInterval(this.anotherDayInterval)
   },
 
   methods: {
@@ -82,9 +111,7 @@ export default {
           .get('/user/fav')
           .then(res => {
             if (res.data.code === 200) {
-              const userInfo = {
-                ...this.getUserInfo
-              }
+              const userInfo = this.getUserInfo
               userInfo.count += 1
               userInfo.isSign = true
               userInfo.favs += this.kiss
@@ -99,6 +126,8 @@ export default {
           .catch(err => {
             console.log(err)
           })
+      } else {
+        this.$pop('shake', '请先登录')
       }
     }
   }

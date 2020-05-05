@@ -10,6 +10,8 @@ import '../mock'
 
 import '@/axios'
 
+import Pop from '@/components/Pop'
+
 Vue.prototype.$http = axios
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$message = Message
@@ -17,6 +19,8 @@ Vue.prototype.$message = Message
 Vue.component('Throttle', Throttle)
 
 Vue.config.productionTip = false
+
+Vue.use(Pop)
 
 new Vue({
   router,

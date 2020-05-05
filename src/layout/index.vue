@@ -4,7 +4,7 @@
     <header class="head">
       <div class="head-box">
         <div class="logo">
-          123
+          1234557891
         </div>
 
         <ul class="share">
@@ -170,6 +170,7 @@ export default {
   /* 头部 */
   .head {
     @include position($ps: sticky, $top: 0, $index: 999);
+    position: -webkit-sticky;
     height: 60px;
     color: $head-color;
     background: #303540;
